@@ -1,0 +1,148 @@
+.wrapper {
+    width: calc(100vw - var(--sidebar-width));
+}
+
+.header {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    height: 68px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 100%;
+}
+
+.logo {
+    height: 36px;
+    width: 36px;
+    margin-right: 2rem;
+}
+
+.content {
+    overflow-y: scroll;
+
+    height: 100%;
+    overflow-y: auto;
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    max-width: 1608px;
+    padding: 32px;
+    box-sizing: border-box;
+    margin: 0px auto;
+}
+
+.card {
+    border: 1px solid rgba(0, 0, 0, 0.0784313725);
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    padding: 24px;
+}
+
+.card-header {
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    background-color: rgba(0, 0, 0, .05);
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.text {
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.actions {
+    display: flex;
+    gap: 8px;
+}
+
+.btn {
+    font-size: 1rem;
+    padding: 0 12px;
+    height: 36px;
+    font-weight: 500;
+}
+
+.card-content {
+    border: 1px dashed rgba(0, 0, 0, 0.15);
+    height: 460px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    background-color: rgba(0, 0, 0, .05);
+    cursor: pointer;
+
+    &:hover {
+        background: rgba(0, 117, 220, 0.06);
+        border: 1px dashed var(--ui-shape-info, #0075dc);
+    }
+
+}
+
+.select {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+
+    img {
+        height: 72px;
+        width: 72px;
+    }
+}
+
+.title {
+    font-size: 22px;
+    margin-top: 12px;
+}
+
+.description {
+    font-size: 1rem;
+    color: rgba(0, 0, 0, .48);
+}
+
+.btn-select {
+    font-size: 14px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.suggestion-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(256px, 1fr));
+    padding-top: 2rem;
+}
+
+.suggestion-item {
+    display: flex;
+    gap: 8px;
+}
+
+.suggestion-icon {
+    font-size: 1rem;
+    padding: 0px 8px 0px 16px;
+    flex-shrink: 0
+}
+
+.suggestion-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.suggestion-title {
+    font-size: 16px;
+    color: #000;
+}
+
+.suggestion-description {
+    color: rgba(0, 0, 0, .48);
+    font-size: 13px;
+    line-height: 1.5;
+}

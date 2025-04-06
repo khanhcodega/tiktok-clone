@@ -1,0 +1,14 @@
+.menu-item {
+    &.open {
+        justify-content: center;
+        height: 40px;
+        width: 40px;
+        gap: 0;
+    }
+}
+
+.icon {
+    &.open {
+        justify-content: center !important;
+    }
+}

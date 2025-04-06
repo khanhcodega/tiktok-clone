@@ -1,0 +1,22 @@
+.wrapper {
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+}
+
+.content {
+    margin: 0px auto;
+    width: 100%;
+    min-width: 420px;
+    flex-shrink: 1;
+    display: flex;
+    justify-content: center;
+
+}
+
+.login {
+    position: absolute;
+    bottom: 2rem;
+    right: 2rem;
+}

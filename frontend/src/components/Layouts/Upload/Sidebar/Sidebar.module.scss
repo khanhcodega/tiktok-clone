@@ -1,0 +1,96 @@
+.wrapper {
+    width: var(--sidebar-width);
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: auto;
+    border-inline-end: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.header {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    height: 68px;
+    padding: 0px 19px 0px 20px;
+    flex-shrink: 0;
+    display: flex;
+    flex-flow: row;
+    -webkit-box-align: center;
+    align-items: center;
+}
+
+.btn-logo {
+    width: 162px;
+    height: 28px;
+    background-color: transparent;
+}
+
+img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.content {
+    padding: 32px 19px 48px 20px;
+    -webkit-box-flex: 1;
+    flex-grow: 1;
+    display: flex;
+    flex-flow: column;
+}
+
+.btn-upload {
+    justify-content: center;
+    font-size: 1rem;
+    align-items: center;
+    height: 36px;
+    font-weight: 500;
+    gap: 0;
+    margin-bottom: 18px;
+}
+
+.text-title {
+    color: var(--text-placeholder);
+    font-size: 10px;
+    text-transform: uppercase;
+    padding-inline-start: 2px;
+    height: 12px;
+}
+
+.menu-item {
+    font-size: 14px;
+    line-height: 16px;
+    height: 36px;
+    border: 1px solid transparent;
+    color: rgba(0, 0, 0, .65) !important;
+
+    &:hover {
+        background: linear-gradient(0deg, rgba(0, 0, 0, 0.01) 0%, rgba(0, 0, 0, 0.01) 100%), linear-gradient(92deg, rgba(0, 0, 0, 0.03) 0%, rgba(0, 0, 0, 0.04) 100%);
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        color: rgba(0, 0, 0, 1) !important;
+
+    }
+}
+
+.footer {
+    padding: 20px 20px 0 20px;
+    width: 100%;
+    display: flex;
+    flex-flow: row;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+}
+
+.btn-logout {
+    gap: 0;
+    background-color: transparent;
+    font-size: 14px;
+    line-height: 16px;
+    color: rgba(0, 0, 0, .65);
+
+    &:hover {
+        background-color: transparent;
+        color: rgba(0, 0, 0, 1)
+    }
+}

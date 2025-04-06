@@ -1,0 +1,52 @@
+.container {
+    width: 100%;
+    min-height: 2px;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.34);
+    border-radius: 5px;
+    position: relative;
+    cursor: pointer;
+
+    &.video {
+        border-bottom-left-radius: 16px;
+        border-bottom-right-radius: 16px;
+
+        .progress {
+            background-color: var(--primary-color);
+            border-bottom-left-radius: 16px;
+            border-bottom-right-radius: 16px;
+        }
+
+        .thum {
+            opacity: 0;
+        }
+    }
+
+    &:hover {
+        .thum {
+            opacity: 1;
+        }
+    }
+}
+
+.progress {
+    width: var(--progress-width, 0%);
+    height: 100%;
+    background-color: rgb(255, 255, 255);
+
+    border-radius: 5px;
+}
+
+.thum {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%) translateX(-50%);
+    left: var(--progress-width, 0%);
+    width: 1em;
+    height: 1em;
+    background-color: rgb(255, 255, 255);
+    border: 1px solid #888;
+    border-radius: 50%;
+    cursor: grab;
+    z-index: 2;
+}

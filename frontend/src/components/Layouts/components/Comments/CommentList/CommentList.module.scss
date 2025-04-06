@@ -1,0 +1,154 @@
+.wrapper {
+    padding-top: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    position: relative;
+    height: 100vh;
+}
+
+.comment-item {
+    display: flex;
+    align-items: start;
+    gap: 12px;
+
+    &:hover {
+        .btn-more {
+            opacity: 1;
+        }
+    }
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+}
+
+.comment-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    flex: 1 1 auto;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
+.name,
+.content {
+    font-size: 14px;
+    color: var(--text-color);
+    font-weight: 500;
+    line-height: 1.5;
+
+
+}
+
+.user {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+
+}
+
+.name {
+    font-weight: 600;
+
+    &:hover {
+        text-decoration: underline;
+        cursor: pointer;
+    }
+}
+
+.btn-more {
+    width: auto !important;
+    height: auto !important;
+    opacity: 0;
+    background-color: transparent !important;
+}
+
+.btn-report {
+    &:hover {
+        background-color: transparent !important;
+        color: var(--primary-color) !important;
+    }
+}
+
+.content {}
+
+.actions {
+    font-size: 14px;
+    color: var(--text-color);
+    font-weight: 400;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.comment-sub {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 1.5em;
+    line-height: 1.5;
+
+}
+
+.comment-date {
+    display: block;
+}
+
+.likes {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+}
+
+.reply-wrapper {
+    margin-left: 52px;
+    padding-top: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.reply {
+    display: flex;
+    flex-direction: row;
+    -webkit-box-align: center;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 0.5em;
+}
+
+
+.spacer {
+    display: flex;
+    width: 32px;
+    height: 1px;
+    background: rgba(0, 0, 0, 0.48);
+}
+
+.options {
+    display: flex;
+    gap: 2em;
+}
+
+.view-reply {
+    font-size: 14px;
+    color: var(--text-color);
+    display: flex;
+    gap: 4px;
+    align-items: center;
+}
+
+.icon {
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+}

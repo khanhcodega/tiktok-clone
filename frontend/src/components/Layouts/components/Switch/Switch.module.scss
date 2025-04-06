@@ -1,0 +1,30 @@
+.switch {
+    width: 50px;
+    height: 25px;
+    background: #ccc;
+    border-radius: 25px;
+    position: relative;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+  }
+  
+  .switch.on {
+    background: #4caf50; /* Màu khi bật */
+  }
+  
+  .switch-handle {
+    width: 22px;
+    height: 22px;
+    background: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 3px;
+    transform: translateY(-50%);
+    transition: left 0.3s ease-in-out;
+  }
+  
+  .switch.on .switch-handle {
+    left: 25px; /* Đẩy nút sang phải khi bật */
+  }
+  

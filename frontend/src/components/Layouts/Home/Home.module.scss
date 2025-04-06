@@ -1,0 +1,49 @@
+.wrapper {
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
+
+    height: 100vh;
+    position: relative;
+    margin: 0px auto;
+    width: 100%;
+    min-width: 420px;
+    flex-shrink: 1;
+    display: flex;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: stretch;
+    align-items: stretch;
+}
+
+.sidebar {
+    position: relative;
+    transition-duration: 300ms;
+}
+
+.actions {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    top: 0;
+    right: 1rem;
+    bottom: 0;
+}
+
+.btn {
+    width: 3rem !important;
+    height: 3rem !important;
+    margin: 10px 0;
+    border-radius: 50% !important;
+    font-weight: 700 !important;
+    justify-content: center !important;
+    background-color: var(--white-color);
+    font-size: 1.5rem !important;
+
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.12) !important;
+
+    }
+}
