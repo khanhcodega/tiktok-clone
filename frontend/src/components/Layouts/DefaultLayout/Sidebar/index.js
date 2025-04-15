@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
 import classNames from "classnames/bind";
-import style from "./Sidebar.module.scss";
 
+import style from "./Sidebar.module.scss";
+import { useAuth } from "~/context/AuthContext";
 import images from "~/assets/images";
 import {
   IconSearch,
@@ -13,7 +13,10 @@ import {
   IconMore,
   IconUpload,
   IconUser,
-  IconLive
+  IconLive,
+  IconFriends,
+  IconActivity,
+  IconMessages
 } from "~/components/icons";
 import Menu, { MenuItem } from "../../components/Menu";
 import SearchResult from "~/components/Search";
@@ -22,13 +25,35 @@ import { Wrapper as PopperWrapper } from "~/components/Popper";
 import { MenuActions } from "../../components/Actions";
 import { MoreAction } from "~/components/datafake/data.js";
 
+const SIDEBAR_BREAKPOINT = 1024;
 const fakeMenuData = MoreAction;
 
 const cx = classNames.bind(style);
+const API_URL = process.env.REACT_APP_API_URL;
 
-function Sidebar({setLogin}) {
+function Sidebar({ setLogin }) {
+  const { user, isAuthenticated } = useAuth();
   const [isVisible, setIsVisible] = useState(false);
   const [render, setRender] = useState(null);
+
+  const [isSmallScreen, setIsSmallScreen] = useState(
+    window.innerWidth < SIDEBAR_BREAKPOINT
+  );
+  useEffect(() => {
+    const handleResize = () => {
+      const currentlySmall = window.innerWidth < SIDEBAR_BREAKPOINT;
+      if (currentlySmall !== isSmallScreen) {
+        setIsSmallScreen(currentlySmall);
+
+        setIsVisible(currentlySmall);
+        setRender(null);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, [isSmallScreen]);
   const handleToggleSearch = () => {
     if (render !== <SearchResult />) {
       setIsVisible(true);
@@ -38,8 +63,8 @@ function Sidebar({setLogin}) {
     }
   };
 
-  const handleToggleMore = () => {
-    if (render !== <MenuActions />) {
+  const handleToggleMore = useCallback(() => {
+    if (render?.type !== MenuActions) {
       setIsVisible(true);
       setRender(
         <MenuActions
@@ -51,34 +76,35 @@ function Sidebar({setLogin}) {
     } else {
       handleCloseVisible();
     }
-  };
+  }, [render]);
 
-  const handleCloseVisible = () => {
+  const handleCloseVisible = useCallback(() => {
     setRender(null);
-    setIsVisible(false);
-  };
+    setIsVisible(isSmallScreen);
+  }, [isSmallScreen]);
 
   const srcLogo = isVisible ? images.logo2 : images.logo;
   return (
     <aside className={cx("wrapper", { open: isVisible })}>
       <div className={cx("inner")}>
-        <Link to={"/"} className={cx("logo")}>
-          <img src={srcLogo} alt="Tiktok" />
-        </Link>
-
-        <Button
-          iconOnly={isVisible}
-          leftIcon={<IconSearch />}
-          onClick={handleToggleSearch}
-          className={cx("btn-search")}
-        >
-          <input
-            readOnly
-            type="text"
-            placeholder="Search"
-            className={cx("input")}
-          />
-        </Button>
+        <div className={cx("header")}>
+          <Link to={"/"} className={cx("logo")}>
+            <img src={srcLogo} alt="Tiktok" />
+          </Link>
+          <Button
+            iconOnly={isVisible}
+            leftIcon={<IconSearch />}
+            onClick={handleToggleSearch}
+            className={cx("btn-search")}
+          >
+            <input
+              readOnly
+              type="text"
+              placeholder="Search"
+              className={cx("input")}
+            />
+          </Button>
+        </div>
 
         <Menu>
           <MenuItem
@@ -103,13 +129,40 @@ function Sidebar({setLogin}) {
             to={"/following"}
             icon={<IconFollowing />}
           />
+          {isAuthenticated && (
+            <MenuItem
+              className={cx("menu-item")}
+              onlyIcon={isVisible}
+              title={"Friends"}
+              to={"/Friends"}
+              icon={<IconFriends />}
+            />
+          )}
           <MenuItem
             className={cx("menu-item")}
             onlyIcon={isVisible}
             title={"Upload"}
-            to={"/upload"}
+            to={isAuthenticated ? "/upload" : undefined}
+            onClick={!isAuthenticated ? () => setLogin(true) : undefined}
             icon={<IconUpload />}
           />
+          {isAuthenticated && (
+            <MenuItem
+              className={cx("menu-item")}
+              onlyIcon={isVisible}
+              title={"Activity"}
+              icon={<IconActivity />}
+            />
+          )}
+          {isAuthenticated && (
+            <MenuItem
+              className={cx("menu-item")}
+              onlyIcon={isVisible}
+              title={"Messages"}
+              to={"/messages"}
+              icon={<IconMessages />}
+            />
+          )}
           <MenuItem
             className={cx("menu-item")}
             onlyIcon={isVisible}
@@ -120,7 +173,13 @@ function Sidebar({setLogin}) {
             className={cx("menu-item")}
             onlyIcon={isVisible}
             title={"Profile"}
-            icon={<IconUser />}
+            icon={
+              isAuthenticated ? (
+                <img alt="avatar" src={`${API_URL}/avatar/${user.avatar}`} />
+              ) : (
+                <IconUser />
+              )
+            }
           />
           <MenuItem
             className={cx("menu-item")}
@@ -133,9 +192,22 @@ function Sidebar({setLogin}) {
 
         {!isVisible && (
           <>
-            <Button primary className={cx("btn-login")} onClick={() => setLogin(true)}>
-              Log in
-            </Button>
+            {!isAuthenticated ? (
+              <Button
+                primary
+                className={cx("btn-login")}
+                onClick={() => setLogin(true)}
+              >
+                Log in
+              </Button>
+            ) : (
+              <div className={cx("following-accounts")}>
+                <h3 className={cx("following-title")}>Following accounts </h3>
+                <span className={cx("following-text")}>
+                  Accounts you follow will appear here
+                </span>
+              </div>
+            )}
 
             <footer className={cx("footer")}>
               <Button className={cx("btn")}>Company</Button>
@@ -146,7 +218,7 @@ function Sidebar({setLogin}) {
           </>
         )}
       </div>
-      {isVisible && <PopperWrapper>{render}</PopperWrapper>}
+      {render && <PopperWrapper>{render}</PopperWrapper>}
     </aside>
   );
 }

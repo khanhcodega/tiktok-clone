@@ -4,7 +4,7 @@ const cx = classNames.bind(style);
 
 function VideoAction({ icon, label, onClick }) {
   return (
-    <div className={cx("actions")} onClick={onClick}>
+    <div className={cx("actions")} onClick={onClick} >
       <span className={cx("icon")}>{icon}</span>
       <strong>{label}</strong>
     </div>

@@ -61,13 +61,22 @@ const MoreAction = [
     ]
   },
   {
-    id: 232,
+    requiresAuth: true,
+    title: "Settings",
+    link: "/"
+  },
+  {
+    requiresAuth: true,
     title: "Feedback and help",
     link: "/"
+  },
+  {
+    requiresAuth: true,
+    title: "Log out",
+    action: "logout"
+
   }
 ];
-
-
 
 const SearcSugget = [
   {

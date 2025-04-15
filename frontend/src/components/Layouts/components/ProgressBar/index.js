@@ -4,7 +4,14 @@ import { useEffect, useRef, useState } from "react";
 
 const cx = classNames.bind(style);
 
-function ProgressBar({ width, offset, onChange, video = false, onSeekEnd }) {
+function ProgressBar({
+  width,
+  offset,
+  onChange,
+  video = false,
+  onSeekEnd,
+  thumb = true
+}) {
   const [isDragging, setIsDragging] = useState(false);
   const progressRef = useRef(null);
 
@@ -62,11 +69,13 @@ function ProgressBar({ width, offset, onChange, video = false, onSeekEnd }) {
       }}
     >
       <div className={cx("progress")}></div>
-      <div
-        className={cx("thum")}
-        onMouseDown={handleMouseDown}
-        onMouseUp={handleMouseUp}
-      ></div>
+      {thumb && (
+        <div
+          className={cx("thum")}
+          onMouseDown={handleMouseDown}
+          onMouseUp={handleMouseUp}
+        ></div>
+      )}
     </div>
   );
 }

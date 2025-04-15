@@ -1,7 +1,17 @@
 import classNames from "classnames/bind";
 import style from "./Sidebar.module.scss";
 import Button from "../../components/Button";
-import { IconAdd, IconAnalytics, IconComment, IconCreator, IconFeedback, IconHome, IconInspirations, IconPosts, IconSound } from "~/components/icons";
+import {
+  IconAdd,
+  IconAnalytics,
+  IconComment,
+  IconCreator,
+  IconFeedback,
+  IconHome,
+  IconInspirations,
+  IconPosts,
+  IconSound
+} from "~/components/icons";
 import Menu, { MenuItem } from "../../components/Menu";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
@@ -94,6 +104,7 @@ function Sidebar() {
       </div>
       <div className={cx("footer")}>
         <Button
+          to={"/"}
           className={cx("btn-logout")}
           leftIcon={<FontAwesomeIcon icon={faChevronLeft} />}
         >

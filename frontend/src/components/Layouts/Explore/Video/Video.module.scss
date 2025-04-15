@@ -16,6 +16,12 @@
             opacity: 1;
         }
     }
+
+    video {
+        height: 100% !important;
+        width: 100% !important;
+        object-fit: cover;
+    }
 }
 
 .videos-trend {
@@ -23,11 +29,7 @@
     width: 100%;
 }
 
-video {
-    height: 100% !important;
-    width: 100% !important;
-    object-fit: cover;
-}
+
 
 .card-info {
     position: absolute;

@@ -25,6 +25,7 @@ function VideoList({ videos, onVideoChange, showComments }) {
           ref={(el) => (videoRefs.current[index] = el)}
           onPlay={() => handleVideoPlay(index)}
           showComments={showComments}
+          
         />
       ))}
     </div>
