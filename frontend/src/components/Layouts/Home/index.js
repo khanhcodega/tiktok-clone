@@ -1,18 +1,18 @@
 import classNames from "classnames/bind";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
-import React, { useCallback, useState, useEffect, useRef } from "react"; // Added useEffect, useRef
+import React, { useCallback, useState, useEffect, useRef } from "react";  
 import axios from "axios";
 
 import style from "./Home.module.scss";
 import VideoList from "./Video/VideoList";
-// import { dataVideo } from "~/components/datafake/dataVideo"; // Keep if needed for fallback/initial structure, otherwise remove
+
 
 import Comments from "../components/Comments";
 import Button from "../components/Button";
 
 const cx = classNames.bind(style);
-const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000"; // Provide a fallback for local dev if needed
+const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000"; 
 const INITIAL_LOAD_LIMIT = 10;
 const SUBSEQUENT_LOAD_LIMIT = 5;
 const SCROLL_THRESHOLD = 300; // Pixels from the bottom to trigger load
@@ -30,7 +30,7 @@ function Home() {
     async (pageNumToFetch, limitToFetch) => {
       if (isLoading) return;
 
-      console.log(`Fetching page ${pageNumToFetch} with limit ${limitToFetch}`);
+      // console.log(`Fetching page ${pageNumToFetch} with limit ${limitToFetch}`);
       setIsLoading(true);
 
       try {
@@ -42,7 +42,7 @@ function Home() {
         });
 
         const { data, pagination, success } = response.data;
-        console.log("API Response:", response.data);
+        // console.log("API Response:", response.data);
 
         if (success && data && data.length > 0) {
           setVideos((prevVideos) => {

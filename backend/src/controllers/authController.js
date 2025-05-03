@@ -118,3 +118,167 @@ exports.logout = async (req, res, next) => {
     .status(200)
     .json({ success: true, message: "User logged out successfully" });
 };
+
+exports.updateProfile = async (req, res, next) => {
+  const { username, name, bio } = req.body;
+  const userId = req.user.id;
+
+  try {
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
+    }
+
+    const updateData = {};
+
+    if (username && username !== user.username) {
+      const existingUser = await User.findOne({
+        username: username,
+        _id: { $ne: userId }
+      });
+      if (existingUser) {
+        if (req.file) {
+          fs.unlinkSync(req.file.path);
+        }
+        return res
+          .status(400)
+          .json({ success: false, message: "Username already taken" });
+      }
+
+      const usernameRegex = /^[a-zA-Z0-9_.]+$/;
+      if (!usernameRegex.test(username)) {
+        if (req.file) fs.unlinkSync(req.file.path);
+        return res
+          .status(400)
+          .json({
+            success: false,
+            message:
+              "Username can only contain letters, numbers, underscores, and periods."
+          });
+      }
+      updateData.username = username;
+
+      if (user.nickname === user.username) {
+        updateData.nickname = username;
+      }
+    }
+
+    if (name && name !== user.name) {
+      if (name.length > 50) {
+        if (req.file) fs.unlinkSync(req.file.path);
+        return res
+          .status(400)
+          .json({
+            success: false,
+            message: "Name cannot exceed 50 characters."
+          });
+      }
+      updateData.name = name;
+    }
+
+    if (bio !== undefined && bio !== user.bio) {
+      if (bio.length > 80) {
+        if (req.file) fs.unlinkSync(req.file.path);
+        return res
+          .status(400)
+          .json({
+            success: false,
+            message: "Bio cannot exceed 80 characters."
+          });
+      }
+      updateData.bio = bio;
+    }
+
+    let oldAvatarPath = null;
+    if (req.file) {
+      if (user.avatar && user.avatar !== "default_avatar.png") {
+        oldAvatarPath = path.join(
+          __dirname,
+          "..",
+          "public",
+          "avatar",
+          user.avatar
+        );
+      }
+      updateData.avatar = req.file.filename;
+    }
+
+    if (Object.keys(updateData).length === 0) {
+      if (!req.file) {
+        return res
+          .status(200)
+          .json({
+            success: true,
+            message: "No changes detected",
+            user: user.toObjectWithoutPassword()
+          });
+      }
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(userId, updateData, {
+      new: true,
+      runValidators: true
+    });
+
+    if (!updatedUser) {
+      if (req.file) fs.unlinkSync(req.file.path);
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found during update." });
+    }
+
+    if (oldAvatarPath) {
+      fs.unlink(oldAvatarPath, (err) => {
+        if (err) {
+          console.error("Error deleting old avatar:", oldAvatarPath, err);
+        } else {
+          console.log("Successfully deleted old avatar:", oldAvatarPath);
+        }
+      });
+    }
+
+    const userResponse = updatedUser.toObject();
+    user.toObjectWithoutPassword();
+    delete userResponse.password;
+
+    res.status(200).json({
+      success: true,
+      message: "Profile updated successfully",
+      user: userResponse
+    });
+  } catch (err) {
+    console.error("Update Profile Error:", err);
+    if (req.file) {
+      fs.unlink(req.file.path, (unlinkErr) => {
+        if (unlinkErr)
+          console.error(
+            "Error deleting uploaded file after failure:",
+            req.file.path,
+            unlinkErr
+          );
+      });
+    }
+
+    if (err.name === "ValidationError") {
+      const messages = Object.values(err.errors).map((val) => val.message);
+      return res
+        .status(400)
+        .json({ success: false, message: messages.join(". ") });
+    }
+    if (err instanceof multer.MulterError) {
+      return res
+        .status(400)
+        .json({ success: false, message: `File Upload Error: ${err.message}` });
+    }
+    if (err.message.startsWith("Not an image!")) {
+      return res.status(400).json({ success: false, message: err.message });
+    }
+
+    res
+      .status(500)
+      .json({ success: false, message: "Server Error during profile update" });
+  }
+};

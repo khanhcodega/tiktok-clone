@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import className from "classnames/bind";
 import style from "./Menu.module.scss";
 
@@ -8,18 +8,26 @@ function MenuItem({
   to,
   title,
   icon,
-  active = false,
+  iconActive,
   onlyIcon = false,
   onClick,
   className
 }) {
+  const location = useLocation();
+  const isActive = to === location.pathname;
+  
   return (
     <NavLink
       to={to}
-      className={cx("menu-item", { active, [className]: className })}
+      className={cx("menu-item", {
+        active: isActive,
+        [className]: className
+      })}
       onClick={onClick}
     >
-      <span className={cx("icon")}>{icon}</span>
+      <span className={cx("icon")}>
+        {isActive && iconActive ? iconActive : icon}
+      </span>
       {!onlyIcon && <span className={cx("title")}>{title}</span>}
     </NavLink>
   );

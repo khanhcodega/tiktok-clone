@@ -11,13 +11,11 @@ connectDB();
 
 const app = express();
 
-
 app.use(cors()); // Cho phép Cross-Origin Resource Sharing (quan trọng cho React app)
 app.use(express.json());
-app.use(express.urlencoded({ extended: true })); 
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "uploads")));
 console.log(`Serving static files from: ${path.join(__dirname, "uploads")}`);
-
 
 routes(app);
 // Middleware xử lý lỗi (phải đặt sau các routes)

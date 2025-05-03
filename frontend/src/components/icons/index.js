@@ -99,7 +99,7 @@ const IconFollowingActive = ({
   <svg
     className={className}
     fill="currentColor"
-    viewBox="0 0 48 48"
+    viewBox="0 0 24 24"
     xmlns="http://www.w3.org/2000/svg"
     width={width}
     height={height}
@@ -697,6 +697,22 @@ const IconFriends = ({ className, width = "2em", height = "2em" }) => (
   </svg>
 );
 
+const IconFriendsActive = ({ className, width = "2em", height = "2em" }) => (
+  <svg
+    className={className}
+    fill="currentColor"
+    viewBox="0 0 48 48"
+    xmlns="http://www.w3.org/2000/svg"
+    width={width}
+    height={height}
+  >
+    <path d="M25.5 17C25.5 21.1421 22.1421 24.5 18 24.5C13.8579 24.5 10.5 21.1421 10.5 17C10.5 12.8579 13.8579 9.5 18 9.5C22.1421 9.5 25.5 12.8579 25.5 17Z"></path>
+    <path d="M7.10396 34.7906C8.78769 30.2189 12.8204 27 18.0009 27C23.1818 27 27.2107 30.2213 28.8958 34.7898C29.3075 35.906 28.6141 37 27.5 37H8.5C7.38629 37 6.69289 35.9067 7.10396 34.7906Z"></path>
+    <path d="M40.6308 37H32C31.2264 34.1633 30.0098 31.5927 28.144 29.7682C29.5384 28.9406 31.1829 28.5 33 28.5C37.239 28.5 40.536 30.8992 41.9148 35.0108C42.2516 36.0154 41.5423 37 40.6308 37Z"></path>
+    <path d="M33 26.5C36.0376 26.5 38.5 24.0376 38.5 21C38.5 17.9624 36.0376 15.5 33 15.5C29.9624 15.5 27.5 17.9624 27.5 21C27.5 24.0376 29.9624 26.5 33 26.5Z"></path>
+  </svg>
+);
+
 const IconActivity = ({ className, width = "2em", height = "2em" }) => (
   <svg
     className={className}
@@ -713,6 +729,22 @@ const IconActivity = ({ className, width = "2em", height = "2em" }) => (
     ></path>
   </svg>
 );
+const IconActivityActive = ({ className, width = "2em", height = "2em" }) => (
+  <svg
+    className={className}
+    fill="currentColor"
+    viewBox="0 0 48 48"
+    xmlns="http://www.w3.org/2000/svg"
+    width={width}
+    height={height}
+  >
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M11.4977 9C10.1195 9 9.0013 10.1153 8.99767 11.4934L8.94239 32.4934C8.93875 33.8767 10.0591 35 11.4424 35H18.7895L22.0656 39.004C23.0659 40.2265 24.9352 40.2264 25.9354 39.0039L29.2111 35H36.5587C37.942 35 39.0623 33.8767 39.0587 32.4934L39.0029 11.4934C38.9993 10.1152 37.8811 9 36.5029 9H11.4977ZM29 21H19C18.4477 21 18 21.4477 18 22V23C18 23.5523 18.4477 24 19 24H29C29.5523 24 30 23.5523 30 23V22C30 21.4477 29.5523 21 29 21Z"
+    ></path>
+  </svg>
+);
 
 const IconMessages = ({ className, width = "1.5em", height = "1.5em" }) => (
   <svg
@@ -724,6 +756,22 @@ const IconMessages = ({ className, width = "1.5em", height = "1.5em" }) => (
     height={height}
   >
     <path d="M2.18 9.67A2 2 0 0 1 4 8.5h40a2 2 0 0 1 1.74 3l-20 35a2 2 0 0 1-3.65-.4l-5.87-18.6L2.49 11.82a2 2 0 0 1-.31-2.15Zm18.2 17.72 4.15 13.15L40.55 12.5H8.41l9.98 11.41 11.71-7.2a1 1 0 0 1 1.38.32l1.04 1.7a1 1 0 0 1-.32 1.38L20.38 27.4Z"></path>
+  </svg>
+);
+const IconMessagesActive = ({
+  className,
+  width = "1.5em",
+  height = "1.5em"
+}) => (
+  <svg
+    className={className}
+    fill="currentColor"
+    viewBox="0 0 48 48"
+    xmlns="http://www.w3.org/2000/svg"
+    width={width}
+    height={height}
+  >
+    <path d="M45.73 9.5a2 2 0 0 0-1.73-1H4a2 2 0 0 0-1.48 3.35l10.44 11.47a2 2 0 0 0 2.2.52l14.49-5.5c.17-.07.25-.04.28-.03.06.02.14.08.2.2.07.1.08.2.08.27 0 .04-.02.12-.16.23l-11.9 10.1a2 2 0 0 0-.62 2.12l4.56 14.51a2 2 0 0 0 3.64.4l20-34.64a2 2 0 0 0 0-2Z"></path>
   </svg>
 );
 
@@ -770,5 +818,8 @@ export {
   IconSound,
   IconFriends,
   IconActivity,
-  IconMessages
+  IconMessages,
+  IconFriendsActive,
+  IconActivityActive,
+  IconMessagesActive
 };

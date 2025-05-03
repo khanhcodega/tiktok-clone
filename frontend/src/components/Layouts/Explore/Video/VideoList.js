@@ -20,7 +20,6 @@ function VideoList({ videos, className,isMuted,setIsMuted }) {
         <FontAwesomeIcon icon={faChevronLeft} />
       </div>
       <Swiper
-        // slidesPerView={"auto"}
         loop={true}
         effect={"coverflow"}
         grabCursor={true}

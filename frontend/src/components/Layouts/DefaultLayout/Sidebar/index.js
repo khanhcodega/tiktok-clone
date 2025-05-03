@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import classNames from "classnames/bind";
 
 import style from "./Sidebar.module.scss";
-import { useAuth } from "~/context/AuthContext";
+import { useAuth } from "~/contexts/AuthContext";
 import images from "~/assets/images";
 import {
   IconSearch,
@@ -16,7 +16,13 @@ import {
   IconLive,
   IconFriends,
   IconActivity,
-  IconMessages
+  IconMessages,
+  IconHomeActive,
+  IconExploreActive,
+  IconFollowingActive,
+  IconFriendsActive,
+  IconActivityActive,
+  IconMessagesActive
 } from "~/components/icons";
 import Menu, { MenuItem } from "../../components/Menu";
 import SearchResult from "~/components/Search";
@@ -24,6 +30,8 @@ import Button from "../../components/Button";
 import { Wrapper as PopperWrapper } from "~/components/Popper";
 import { MenuActions } from "../../components/Actions";
 import { MoreAction } from "~/components/datafake/data.js";
+import { useModal } from "~/contexts/ModalContext";
+
 
 const SIDEBAR_BREAKPOINT = 1024;
 const fakeMenuData = MoreAction;
@@ -31,8 +39,10 @@ const fakeMenuData = MoreAction;
 const cx = classNames.bind(style);
 const API_URL = process.env.REACT_APP_API_URL;
 
-function Sidebar({ setLogin }) {
+function Sidebar({ }) {
   const { user, isAuthenticated } = useAuth();
+const {openLoginModal} = useModal()
+
   const [isVisible, setIsVisible] = useState(false);
   const [render, setRender] = useState(null);
 
@@ -113,7 +123,7 @@ function Sidebar({ setLogin }) {
             title={"For you"}
             icon={<IconHome />}
             to={"/"}
-            active
+            iconActive={<IconHomeActive />}
           />
           <MenuItem
             className={cx("menu-item")}
@@ -121,6 +131,7 @@ function Sidebar({ setLogin }) {
             title={"Explore"}
             to={"/explore"}
             icon={<IconExplore />}
+            iconActive={<IconExploreActive />}
           />
           <MenuItem
             className={cx("menu-item")}
@@ -128,6 +139,7 @@ function Sidebar({ setLogin }) {
             title={"Following"}
             to={"/following"}
             icon={<IconFollowing />}
+            iconActive={<IconFollowingActive />}
           />
           {isAuthenticated && (
             <MenuItem
@@ -136,6 +148,7 @@ function Sidebar({ setLogin }) {
               title={"Friends"}
               to={"/Friends"}
               icon={<IconFriends />}
+              iconActive={<IconFriendsActive />}
             />
           )}
           <MenuItem
@@ -143,7 +156,7 @@ function Sidebar({ setLogin }) {
             onlyIcon={isVisible}
             title={"Upload"}
             to={isAuthenticated ? "/upload" : undefined}
-            onClick={!isAuthenticated ? () => setLogin(true) : undefined}
+            onClick={!isAuthenticated ? () => openLoginModal() : undefined}
             icon={<IconUpload />}
           />
           {isAuthenticated && (
@@ -152,6 +165,8 @@ function Sidebar({ setLogin }) {
               onlyIcon={isVisible}
               title={"Activity"}
               icon={<IconActivity />}
+              to={"/activity"}
+              iconActive={<IconActivityActive />}
             />
           )}
           {isAuthenticated && (
@@ -161,6 +176,7 @@ function Sidebar({ setLogin }) {
               title={"Messages"}
               to={"/messages"}
               icon={<IconMessages />}
+              iconActive={<IconMessagesActive />}
             />
           )}
           <MenuItem
@@ -173,6 +189,7 @@ function Sidebar({ setLogin }) {
             className={cx("menu-item")}
             onlyIcon={isVisible}
             title={"Profile"}
+            to={"/profile"}
             icon={
               isAuthenticated ? (
                 <img alt="avatar" src={`${API_URL}/avatar/${user.avatar}`} />
@@ -196,7 +213,7 @@ function Sidebar({ setLogin }) {
               <Button
                 primary
                 className={cx("btn-login")}
-                onClick={() => setLogin(true)}
+                onClick={() => openLoginModal()}
               >
                 Log in
               </Button>

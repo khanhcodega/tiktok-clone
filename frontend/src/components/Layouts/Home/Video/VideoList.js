@@ -5,7 +5,7 @@ import React, { useRef, useState } from "react";
 
 const cx = classNames.bind(style);
 
-function VideoList({ videos, onVideoChange, showComments }) {
+function VideoList({ videos, onVideoChange, showComments,currentVideoId }) {
   const videoRefs = useRef([]);
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
 
@@ -25,6 +25,7 @@ function VideoList({ videos, onVideoChange, showComments }) {
           ref={(el) => (videoRefs.current[index] = el)}
           onPlay={() => handleVideoPlay(index)}
           showComments={showComments}
+          currentVideoId={currentVideoId}
           
         />
       ))}

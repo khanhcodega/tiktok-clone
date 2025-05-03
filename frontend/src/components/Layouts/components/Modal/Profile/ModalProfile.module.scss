@@ -1,0 +1,138 @@
+.container {
+    position: fixed;
+    z-index: 9999;
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    overflow-y: scroll;
+    scrollbar-width: none;
+}
+
+.wrapper {
+    align-items: center;
+    margin: 32px 16px;
+    display: flex;
+    flex-direction: column;
+    max-width: 720px;
+    width: 100%;
+    align-items: start;
+    background-color: #fff;
+    border-radius: 8px;
+    height: 100vh;
+}
+
+.header {
+
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 24px 24px 12px;
+}
+
+.header-title {
+    font-size: 24px;
+    font-weight: 500;
+}
+
+.btn-close {
+    font-weight: 400;
+    background-color: transparent;
+    font-size: 24px;
+    width: auto;
+
+    &:hover {
+        background-color: transparent;
+    }
+}
+
+.content {
+    padding: 8px 24px 0px;
+}
+
+.item {
+    padding: 16px 0;
+    display: flex;
+    width: 100%;
+    gap: 24px;
+}
+
+.title {
+    width: 120px;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.item-content {
+    display: flex;
+    flex-direction: column;
+    width: 360px;
+}
+
+.avatar {
+    display: inline-flex;
+    width: 96px;
+    height: 96px;
+    margin-left: 120px;
+}
+
+.input {
+    width: 360px;
+    height: 38px;
+    border-radius: 4px;
+    background: rgba(22, 24, 35, 0.06);
+    caret-color: rgb(254, 44, 85);
+    font-size: 16px;
+    line-height: 24px;
+    outline: none;
+    border: none;
+    padding: 7px 12px;
+}
+
+.textarea {
+    height: 100px;
+    padding: 12px;
+    resize: none
+}
+
+.description {
+    font-size: 12px;
+    margin-top: 16px;
+}
+
+.sub-description,
+.count {
+    font-size: 12px;
+    margin-top: 8px;
+}
+
+
+
+.footer {
+    display: flex;
+    justify-content: end;
+    width: 100%;
+    padding: 0 24px;
+    align-items: center;
+    height: 86px;
+}
+
+.btn {
+    width: 96px;
+    font-size: 16px;
+    justify-content: center;
+    font-weight: 500;
+}
+
+.btn-cancel {
+    background-color: transparent;
+    margin-right: 24px;
+}
+
+.btn-save {
+    &:disabled {
+        background-color: var(--white-color);
+    }
+}

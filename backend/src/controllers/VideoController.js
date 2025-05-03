@@ -182,8 +182,6 @@ exports.likeVideo = async (req, res, next) => {
   }
 };
 
-//   POST /api/videos/:id/comment
-
 exports.commentVideo = async (req, res, next) => {
   const { text } = req.body;
   if (!text || text.trim() === "") {

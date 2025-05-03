@@ -4,15 +4,17 @@ import { IconAudio, IconLike, IconMute } from "~/components/icons";
 import { useRef } from "react";
 
 const cx = classNames.bind(style);
+const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
 
 function VideoItem({ video, muted, setIsMuted }) {
   const videoRef = useRef(null);
-
+  const { user, videoUrl, description, likes, comments, save, share, _id } =
+    video || {};
   const handleMouseEnter = () => {
     if (videoRef.current) {
       const playPromise = videoRef.current.play();
       if (playPromise !== undefined) {
-        playPromise.catch(error => console.log("Playback prevented:", error));
+        playPromise.catch((error) => console.log("Playback prevented:", error));
       }
     }
   };
@@ -20,7 +22,7 @@ function VideoItem({ video, muted, setIsMuted }) {
   const handleMouseLeave = () => {
     if (videoRef.current) {
       videoRef.current.pause();
-      videoRef.current.currentTime = 0; // Reset video về đầu khi hover ra
+      videoRef.current.currentTime = 0; 
     }
   };
 
@@ -30,11 +32,11 @@ function VideoItem({ video, muted, setIsMuted }) {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <video src={video.url} ref={videoRef} muted={muted}></video>
+      <video src={videoUrl} ref={videoRef} muted={muted}></video>
       <div className={cx("card-info")}>
         <button className={cx("likes")}>
           <IconLike />
-          <span>{video.likes}</span>
+          <span>{likes.length}</span>
         </button>
         <button
           className={cx("audio")}

@@ -1,6 +1,6 @@
 import classNames from "classnames/bind";
 import style from "./Modal.module.scss";
-import Button from "../Button";
+import Button from "../../Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 

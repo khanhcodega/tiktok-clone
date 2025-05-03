@@ -2,8 +2,8 @@ import classNames from "classnames/bind";
 import style from "./Modal.module.scss";
 import { useState } from "react";
 
-import Form, { FormGroup } from "../Form";
-import Button from "../Button";
+import Form, { FormGroup } from "../../Form";
+import Button from "../../Button";
 import {
   IconApple,
   IconFb,
@@ -16,7 +16,7 @@ import {
 import Wrapper from "./Wrapper";
 import useFormValidation from "~/hook/useFormValidation";
 import { isRequired } from "~/utils/validator";
-import { useAuth } from "~/context/AuthContext";
+import { useAuth } from "~/contexts/AuthContext";
 const API_URL = process.env.REACT_APP_API_URL;
 const cx = classNames.bind(style);
 
@@ -63,7 +63,7 @@ function ModalLogin({ onClose, ...props }) {
       login(formData.username, formData.password);
       setTimeout(() => {
         if (onClose) onClose();
-      }, 2000);
+      }, 500);
     } catch (err) {
       setErrorSever(err.message || "Registration failed. Please try again.");
     }

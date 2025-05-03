@@ -11,19 +11,24 @@ export const AuthProvider = ({ children }) => {
       return storedUser ? JSON.parse(storedUser) : null;
     } catch (e) {
       console.error("Error parsing stored user data:", e);
-      localStorage.removeItem("authUser"); // Clear invalid data
+      localStorage.removeItem("authUser");
       return null;
     }
   });
 
-  const [isLoading, setIsLoading] = useState(false); 
-  const [error, setError] = useState(null); 
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const login = async (username, password) => {
     setIsLoading(true);
     setError(null);
     const API_URL = process.env.REACT_APP_API_URL;
-    console.log("AuthContext attempting fetch login for:", username, "Password provided:", !!password); // <-- Thêm log này (Không log password thật)
+    console.log(
+      "AuthContext attempting fetch login for:",
+      username,
+      "Password provided:",
+      !!password
+    );
     try {
       const response = await fetch(`${API_URL}/api/auth/login`, {
         method: "POST",
@@ -44,29 +49,25 @@ export const AuthProvider = ({ children }) => {
       setToken(data.token);
       setUser(data.user);
       localStorage.setItem("authToken", data.token);
-      localStorage.setItem("authUser", JSON.stringify(data.user)); // Store user info
+      localStorage.setItem("authUser", JSON.stringify(data.user));
       setIsLoading(false);
-      return true; // Indicate success
+      return true;
     } catch (err) {
       console.error("Login failed:", err);
       setError(err.message || "Login failed. Please try again.");
       setIsLoading(false);
-     
-      return false; 
+
+      return false;
     }
-  }; 
-  
-  
-  // Function to handle logout
+  };
+
   const logout = () => {
     setToken(null);
     setUser(null);
     localStorage.removeItem("authToken");
     localStorage.removeItem("authUser");
-    // Optionally: Redirect to login page or home page using react-router
-    // navigate('/login'); // Assuming you have access to navigate function
     console.log("User logged out");
-  }; // Check local storage on initial load
+  };
   useEffect(() => {
     const storedToken = localStorage.getItem("authToken");
     const storedUser = localStorage.getItem("authUser");
@@ -76,22 +77,20 @@ export const AuthProvider = ({ children }) => {
         setUser(JSON.parse(storedUser));
       } catch (e) {
         console.error("Error parsing stored user on initial load:", e);
-        logout(); // Clear inconsistent state
+        logout();
       }
     } else {
-      // If one is missing, ensure both are cleared
       logout();
     }
-    // You might want to add a check here to verify the token with the backend (`/api/auth/me`)
-    // especially if tokens have a short expiry.
-  }, []); // Empty dependency array ensures this runs only once on mount
+  }, []);
 
   const value = {
     token,
     user,
-    isAuthenticated: !!token, // Simple check if token exists
+    isAuthenticated: !!token,
     isLoading,
     error,
+    setUser,
     login,
     logout
   };
@@ -99,7 +98,7 @@ export const AuthProvider = ({ children }) => {
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
-// Custom hook to easily use the AuthContext
+
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (context === undefined) {

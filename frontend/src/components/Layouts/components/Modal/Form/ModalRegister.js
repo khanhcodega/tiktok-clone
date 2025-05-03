@@ -1,5 +1,5 @@
 import Wrapper from "./Wrapper";
-import Form, { FormGroup } from "../Form";
+import Form, { FormGroup } from "../../Form";
 import React, { useState } from "react";
 
 import useFormValidation from "~/hook/useFormValidation";
@@ -57,7 +57,7 @@ function ModalRegister({ onClose, ...props }) {
         if (onClose) onClose();
         // Hoặc nếu bạn có nút chuyển sang login
         // if (onSwitchToLogin) onSwitchToLogin();
-      }, 2000); 
+      }, 500);
     } catch (err) {
       setErrorSever(err.message || "Registration failed. Please try again.");
     }

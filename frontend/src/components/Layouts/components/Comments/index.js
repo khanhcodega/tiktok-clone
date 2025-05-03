@@ -2,18 +2,17 @@ import classNames from "classnames/bind";
 import style from "./Comments.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { useRef, useState } from "react";
 
 import Button from "../Button";
 import CommentList from "./CommentList/index";
-import { useAuth } from "~/context/AuthContext";
-import { useRef, useState } from "react";
-import { comment } from "postcss";
+import { useAuth } from "~/contexts/AuthContext";
 const cx = classNames.bind(style);
 
 const API_URL = process.env.REACT_APP_API_URL;
 
 function Comments({ comments, setShowComments, videoId }) {
-  const { user, isAuthenticated, token } = useAuth();
+  const { isAuthenticated, token } = useAuth();
   const [valueComment, setValueComment] = useState("");
   const [error, setError] = useState(null);
   const handleChangeComment = (event) => {
@@ -21,7 +20,6 @@ function Comments({ comments, setShowComments, videoId }) {
     setValueComment(newValue);
   };
 
-  
   const inputRef = useRef();
   const handleComment = async (valueComment) => {
     if (!videoId) {
@@ -73,7 +71,7 @@ function Comments({ comments, setShowComments, videoId }) {
     }, 0);
   };
 
-  const totalComment = countTotalComments(comments)
+  const totalComment = countTotalComments(comments);
   return (
     <div className={cx("wrapper")}>
       <div className={cx("header")}>

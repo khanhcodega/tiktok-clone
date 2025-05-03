@@ -23,10 +23,26 @@ import VideoAction from "./VideoAction";
 import CustomTooltip from "../../components/CustomTooltip";
 import Menu, { MenuItem } from "../../components/Menu";
 import Switch from "../../components/Switch";
+import { useAuth } from "~/contexts/AuthContext";
+
 const cx = classNames.bind(style);
 const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
+
 const VideoItem = forwardRef(
   ({ video, index, onPlay, showComments, currentVideoId }, ref) => {
+    const { isAuthenticated, token, user: userObject } = useAuth();
+    const { user, videoUrl, description, likes, comments, save, share, _id } =
+      video || {};
+    // console.log(likes);
+    const userId = userObject?._id;
+    const [likeActive, setLikeActive] = useState(() => {
+      if (!userId || !Array.isArray(likes)) {
+        return false;
+      }
+      return likes.some(
+        (like) => like && like.toString() === userId.toString()
+      );
+    });
     const videoRef = useRef(null);
     const [isPlaying, setIsPlaying] = useState(false);
     const [currentTimes, setCurrentTimes] = useState(0);
@@ -37,8 +53,49 @@ const VideoItem = forwardRef(
     const [volume, setVolume] = useState(1);
     const [volumePrev, setVolumePrev] = useState(volume);
 
-    const { user, videoUrl, description, likes, comments, save, share, _id } =
-      video || {};
+    const [likeCount, setLikeCount] = useState(likes.length);
+
+    const handleLike = async (currentVideoId) => {
+      if (!currentVideoId) {
+        return;
+      }
+      if (!token) {
+        console.error("Authentication token is missing.");
+        return;
+      }
+
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      };
+
+      try {
+        const response = await fetch(
+          `${API_URL}/api/videos/${currentVideoId}/like`,
+          {
+            method: "PUT",
+            headers: headers
+          }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(
+            data.message || `HTTP error! status: ${response.status}`
+          );
+        }
+        if (data.message === "Video unliked") {
+          setLikeCount((prev) => prev - 1);
+          setLikeActive(false);
+        } else {
+          setLikeCount((prev) => prev + 1);
+          setLikeActive(true);
+        }
+      } catch (err) {
+        console.error(err.message || "Registration failed. Please try again.");
+      }
+    };
 
     useEffect(() => {
       const observer = new IntersectionObserver(
@@ -289,7 +346,12 @@ const VideoItem = forwardRef(
               </span>
             </div>
 
-            <VideoAction icon={<IconLikeActive />} label={likes.length} />
+            <VideoAction
+              icon={<IconLikeActive />}
+              label={likeCount}
+              onClick={() => handleLike(currentVideoId)}
+              className={cx("btn-like", { active: likeActive })}
+            />
             <VideoAction
               onClick={() => showComments((prev) => !prev)}
               videoCurrent={videoRef.current}

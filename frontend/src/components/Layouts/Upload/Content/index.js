@@ -15,7 +15,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ProgressBar from "../../components/ProgressBar";
-import { useAuth } from "~/context/AuthContext"; // Adjust path to your AuthContext
+import { useAuth } from "~/contexts/AuthContext"; 
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 
@@ -27,22 +27,19 @@ const MAX_DESCRIPTION_LENGTH = 500;
 
 function Content() {
   const { token, isAuthenticated } = useAuth();
-  const [selectedFile, setSelectedFile] = useState(null); // Stores the File object
-  const [previewUrl, setPreviewUrl] = useState(null); // For local preview
-  const [postProgress, setPostProgress] = useState(0); // Progress for the final post action
-  const [postStatus, setPostStatus] = useState("idle"); // 'idle', 'validating', 'ready', 'posting', 'success', 'error'
+  const [selectedFile, setSelectedFile] = useState(null); 
+  const [previewUrl, setPreviewUrl] = useState(null); 
+  const [postProgress, setPostProgress] = useState(0); 
+  const [postStatus, setPostStatus] = useState("idle"); 
   const [errorMessage, setErrorMessage] = useState("");
   const [description, setDescription] = useState("");
-  // No need for uploadedVideoData until after successful post
-  // const [uploadedVideoData, setUploadedVideoData] = useState(null);
+
 
   const fileInputRef = useRef(null);
   const videoPreviewRef = useRef(null);
 
-  // --- File Selection & Validation ---
 
   const handleSelectClick = () => {
-    // Reset if coming from error or success state
     if (postStatus === "error" || postStatus === "success") {
       resetState();
     }
@@ -51,7 +48,7 @@ function Content() {
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
-    if (fileInputRef.current) fileInputRef.current.value = ""; // Reset input
+    if (fileInputRef.current) fileInputRef.current.value = ""; 
     if (file) {
       validateAndSetFile(file);
     }
@@ -63,7 +60,7 @@ function Content() {
     setPostStatus("validating");
     setErrorMessage("");
     setSelectedFile(null);
-    revokePreviewUrl(); // Clean up previous preview URL if any
+    revokePreviewUrl(); 
     setDescription("");
 
     if (!file.type.startsWith("video/")) {
@@ -78,21 +75,19 @@ function Content() {
       return;
     }
 
-    // Validation successful
     setSelectedFile(file);
-    const localUrl = URL.createObjectURL(file); // Create local preview URL
+    const localUrl = URL.createObjectURL(file); 
     setPreviewUrl(localUrl);
-    setPostStatus("ready"); // Ready to enter details and post
-    setErrorMessage(""); // Clear any previous errors
+    setPostStatus("ready");
+    setErrorMessage(""); 
   };
 
-  // --- Post Logic ---
 
   const handlePost = async () => {
     if (!selectedFile || !isAuthenticated || postStatus === "posting") {
       if (!isAuthenticated) setErrorMessage("Please log in to post.");
       else if (!selectedFile) setErrorMessage("No video file selected.");
-      setPostStatus("error"); // Set status to error if invalid state
+      setPostStatus("error"); 
       return;
     }
 
@@ -102,18 +97,18 @@ function Content() {
 
     const formData = new FormData();
     formData.append("video", selectedFile);
-    formData.append("description", description); // Send description along with the file
+    formData.append("description", description); 
 
     try {
       const response = await axios.post(
-        `${API_URL}/api/videos/upload`, // Use the single upload endpoint
+        `${API_URL}/api/videos/upload`, 
         formData,
         {
           headers: {
             Authorization: `Bearer ${token}`
           },
           onUploadProgress: (progressEvent) => {
-            // Calculate percentage for the combined post/upload action
+           
             const percentCompleted = Math.round(
               (progressEvent.loaded * 100) / progressEvent.total
             );
@@ -122,12 +117,10 @@ function Content() {
         }
       );
 
-      // Handle Success
       setPostStatus("success");
 
       console.log("Post successful:", response.data);
       alert("Video posted successfully!");
-     
     } catch (error) {
       console.error("Post failed:", error.response || error);
       setPostStatus("error");
@@ -137,20 +130,18 @@ function Content() {
           "An unknown error occurred during posting."
       );
       setPostProgress(0);
-      // Keep selectedFile and description so user can retry without re-selecting/re-typing
+      
     }
   };
 
-  // --- Discard / Reset ---
 
   const handleDiscard = () => {
-    // No need to call backend as nothing is saved yet
     resetState();
   };
 
   const resetState = () => {
     setSelectedFile(null);
-    revokePreviewUrl(); // Clean up object URL
+    revokePreviewUrl(); 
     setPostProgress(0);
     setPostStatus("idle");
     setErrorMessage("");
@@ -158,8 +149,7 @@ function Content() {
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
-  // --- Effects ---
-  // Clean up object URL when component unmounts or file changes
+  
   const revokePreviewUrl = () => {
     if (previewUrl) {
       URL.revokeObjectURL(previewUrl);
@@ -167,23 +157,22 @@ function Content() {
     }
   };
   useEffect(() => {
-    // This is the cleanup function that runs when the component unmounts
-    // or before the effect runs again if dependencies change (which they don't here).
+    
     return () => {
       revokePreviewUrl();
     };
-  }, []); // Empty dependency array means this runs once on mount and cleanup on unmount
+  }, []); 
 
-  // --- Render Logic ---
   const showDetailsSection =
     postStatus === "ready" ||
     postStatus === "posting" ||
     postStatus === "error" ||
-    postStatus === "success"; // Show details once file is selected/validated
+    postStatus === "success"; 
   const showInitialSelector =
     postStatus === "idle" ||
     postStatus === "validating" ||
-    (postStatus === "error" && !selectedFile); // Show selector if idle, validating, or error *before* file selection
+    (postStatus === "error" && !selectedFile); 
+
   const showPostProgress = postStatus === "posting";
   const showSuccessMessage = postStatus === "success";
 
@@ -198,7 +187,7 @@ function Content() {
           ref={fileInputRef}
           onChange={handleFileChange}
           style={{ display: "none" }}
-          accept="video/*" // Only allow video files
+          accept="video/*" 
           disabled={postStatus === "posting"}
         />
         {showDetailsSection && selectedFile && (
@@ -252,25 +241,23 @@ function Content() {
           </div>
         )}
 
-        {/* Details Section */}
         {showDetailsSection && selectedFile && (
           <>
             <h3 className={cx("details-title")}> Details</h3>
-            {/* Display posting error message here */}
             {errorMessage &&
-              postStatus !== "error" && ( // Show non-upload errors here
+              postStatus !== "error" && ( 
                 <div className={cx("error-message", "details-error")}>
                   <FontAwesomeIcon icon={faExclamationCircle} /> {errorMessage}
                 </div>
               )}
 
             <div className={cx("details")}>
-              <div className={cx("card","card-description")}>
+              <div className={cx("card", "card-description")}>
                 <h4 className={cx("details-subtitle")}> Description</h4>
                 <div className={cx("card-details")}>
                   <textarea
                     className={cx("detail-description")}
-                    rows="10" // Adjust as needed
+                    rows="10" 
                     maxLength={MAX_DESCRIPTION_LENGTH}
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
@@ -305,7 +292,7 @@ function Content() {
                   <video
                     ref={videoPreviewRef}
                     controls
-                    src={previewUrl || ""} // <--- Here!
+                    src={previewUrl || ""} 
                     key={previewUrl}
                     className={cx("video-preview-element")}
                   >

@@ -1,1 +1,21 @@
-*.psd filter=lfs diff=lfs merge=lfs -text
+# Set default behavior, in case users don't have core.autocrlf set.
+* text=auto
+
+# Explicitly declare text files you want to always normalize and checkout with LF.
+*.js    text eol=lf
+*.css   text eol=lf
+*.html  text eol=lf
+*.json  text eol=lf
+*.md    text eol=lf
+*.yaml  text eol=lf
+*.yml   text eol=lf
+.gitignore text eol=lf
+# Add other text file extensions as needed
+
+# Declare files that will always have CRLF line endings (e.g., Windows batch files)
+*.bat   text eol=crlf
+
+# Declare files that should not be touched (binary files)
+*.png   binary
+*.jpg   binary
+# Add other binary file extensions

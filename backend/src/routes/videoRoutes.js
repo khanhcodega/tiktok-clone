@@ -88,9 +88,9 @@ router.post("/upload", protect, (req, res, next) => {
   });
 });
 
-router.get("/", getVideos); // Lấy danh sách video (feed)
-router.get("/:id", getVideoById); // Lấy chi tiết 1 video
-router.put("/:id/like", protect, likeVideo); // Like/unlike video (cần đăng nhập)
-router.post("/:id/comment", protect, commentVideo); // Comment video (cần đăng nhập)
+router.get("/", getVideos); 
+router.get("/:id", getVideoById); 
+router.put("/:id/like", protect, likeVideo); 
+router.post("/:id/comment", protect, commentVideo);
 
 module.exports = router;
